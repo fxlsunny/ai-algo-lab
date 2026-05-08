@@ -7,9 +7,9 @@
   const STORAGE_KEY = "aial-llm-configs";
   const ACTIVE_KEY = "aial-llm-active";
 
-  // 腾讯混元内置演示 Key（参考 ai_task_manager 项目）
-  // 零配置即用 - 不填 Key 选择混元时自动使用此 Key
-  const HUNYUAN_DEMO_KEY = "***REMOVED***";
+  // ⚠️ 请在此填入你的腾讯混元 API Key，再也不用内置占位符
+  // 获取地址：https://console.cloud.tencent.com/hunyuan/api-key
+  const HUNYUAN_DEMO_KEY = "";
 
   // 内置 Provider 预设
   const PROVIDERS = {
