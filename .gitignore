@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+
+# 本地数据（用户隐私）
+data/
+启动CORS代理.bat
+
+# 日志
+logs/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# CORS 代理脚本（本地运行时工具）
+proxy/
+proxy.py
+
+# 旧版本
+index_old.html
+data.json
+build*.py
+archive/
