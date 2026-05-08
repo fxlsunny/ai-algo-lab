@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI 算法研发可视化平台 · AI Algo Lab</title>
+
+  <!-- TailwindCSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+
+  <!-- highlight.js -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/styles/github-dark-dimmed.min.css" />
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/highlight.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/languages/python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/languages/yaml.min.js"></script>
+
+  <!-- ECharts -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+
+  <!-- Mermaid -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.min.js"></script>
+
+  <link rel="stylesheet" href="assets/css/app.css" />
+</head>
+<body class="antialiased" style="background:var(--bg-primary);color:var(--text-primary)">
+  <!-- Header -->
+  <header class="sticky top-0 z-40 text-white shadow-lg" style="background:linear-gradient(to right,#0f172a,#1e293b,#0f172a)">
+    <div class="max-w-[1800px] mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-3 sm:gap-6">
+      <!-- 汉堡菜单（仅移动端显示） -->
+      <button id="mobile-menu-btn" class="md:hidden flex items-center justify-center w-9 h-9 rounded-md bg-white/10 hover:bg-white/20 text-white text-lg flex-shrink-0" data-i18n-title="header.menu_btn" data-i18n-aria="header.menu_aria" title="菜单" aria-label="打开侧边菜单">
+        <span>☰</span>
+      </button>
+      <!-- Logo + 平台标题（左对齐） -->
+      <div class="flex items-center gap-3 flex-shrink-0 min-w-0">
+        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center font-bold text-lg flex-shrink-0">AI</div>
+        <div class="min-w-0">
+          <h1 class="text-sm sm:text-lg font-bold tracking-wide whitespace-nowrap overflow-hidden text-ellipsis"><span data-i18n="header.title">AI 算法研发可视化平台</span><span class="hidden sm:inline"> · AI Algo Lab</span></h1>
+          <p class="text-xs text-slate-300 whitespace-nowrap overflow-hidden text-ellipsis hidden sm:block" data-i18n="header.subtitle">Basic ML · Neural Networks · Graph · Loss · LLM · 案例研究 &amp; 对比</p>
+        </div>
+      </div>
+      <!-- 导航按钮组（右侧） -->
+      <nav class="flex items-center gap-1 sm:gap-2 text-sm flex-shrink-0">
+        <!-- 搜索框（移动端只显示图标） -->
+        <button id="header-search-btn" class="flex items-center gap-2 px-2 sm:px-4 py-1.5 rounded-md bg-white/10 hover:bg-white/20 transition-colors sm:min-w-[180px]">
+          <span>🔍</span>
+          <span class="text-xs text-slate-200 hidden sm:inline" data-i18n="header.search_label">搜索算法 / 模块</span>
+          <span class="text-[10px] px-1.5 py-0.5 bg-white/20 rounded text-slate-300 flex-shrink-0 hidden sm:inline">Ctrl K</span>
+        </button>
+        <a href="#/compare" class="px-3 py-1.5 rounded-md bg-white/10 hover:bg-white/20 text-white text-xs font-semibold whitespace-nowrap hidden sm:inline-block" data-i18n="header.compare">⚖️ 对比</a>
+        <button id="header-assistant-btn" class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-md bg-gradient-to-r from-pink-500 via-fuchsia-500 to-purple-600 text-white text-xs font-bold shadow-lg hover:opacity-90 transition-opacity whitespace-nowrap">
+          <span>🧙‍♂️</span>
+          <span data-i18n="header.assistant">AI 算法选型助手</span>
+        </button>
+        <a href="#/tutor" id="header-tutor-btn" class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-md bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-600 text-white text-xs font-bold shadow-lg hover:opacity-90 transition-opacity whitespace-nowrap no-underline">
+          <span>👨‍🏫</span>
+          <span data-i18n="header.tutor">AI 学习助理</span>
+        </a>
+        <!-- 移动端简化按钮：直接跳链接 -->
+        <a href="#/tutor" class="lg:hidden flex items-center justify-center w-9 h-9 rounded-md bg-gradient-to-r from-emerald-500 to-teal-500 text-white" data-i18n-title="header.tutor_short" title="AI 学习助理">👨‍🏫</a>
+        <!-- 语言切换按钮（中/EN） -->
+        <button id="header-lang-btn" class="flex items-center gap-1 px-2.5 py-1.5 rounded-md bg-white/10 hover:bg-white/20 text-white text-xs" data-i18n-title="header.lang_title" title="切换语言（中文 / English）">
+          <span>🌐</span>
+          <span id="lang-indicator" class="font-semibold tracking-wide">中</span>
+        </button>
+        <!-- 主题切换按钮 -->
+        <div id="theme-switcher" class="relative">
+          <button id="theme-btn" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-white/10 hover:bg-white/20 text-white text-xs" data-i18n-title="header.theme_title" title="切换主题">
+            <span id="theme-icon">☀️</span>
+            <span id="theme-name" class="hidden sm:inline">日间</span>
+            <span class="text-[10px] opacity-60">▾</span>
+          </button>
+          <!-- 主题下拉菜单 -->
+          <div id="theme-dropdown" class="hidden absolute right-0 top-full mt-2 w-40 bg-white rounded-xl shadow-xl border border-slate-200 py-2 z-50 overflow-hidden">
+            <button class="theme-opt w-full flex items-center gap-3 px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition-colors" data-theme="day">
+              <span class="text-base">☀️</span>
+              <span class="font-medium" data-i18n="theme.day">日间</span>
+              <span class="ml-auto text-[10px] text-slate-400" data-i18n="theme.day_desc">亮色</span>
+            </button>
+            <button class="theme-opt w-full flex items-center gap-3 px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition-colors" data-theme="eye">
+              <span class="text-base">🌿</span>
+              <span class="font-medium" data-i18n="theme.eye">护眼</span>
+              <span class="ml-auto text-[10px] text-slate-400" data-i18n="theme.eye_desc">暖色</span>
+            </button>
+            <button class="theme-opt w-full flex items-center gap-3 px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition-colors" data-theme="night">
+              <span class="text-base">🌙</span>
+              <span class="font-medium" data-i18n="theme.night">夜视</span>
+              <span class="ml-auto text-[10px] text-slate-400" data-i18n="theme.night_desc">深色</span>
+            </button>
+          </div>
+        </div>
+        <!-- 界面设置按钮（主题+字号+语言） -->
+        <button id="header-settings-btn" class="flex items-center gap-1 px-2.5 py-1.5 rounded-md bg-white/10 hover:bg-white/20 text-white text-xs" data-i18n-title="header.settings_title" title="界面设置（主题/字号/语言）">
+          <span>🎨</span>
+        </button>
+        <button id="header-config-btn" class="flex items-center gap-1 px-2.5 py-1.5 rounded-md bg-white/10 hover:bg-white/20 text-white text-xs" data-i18n-title="header.config_title" title="配置 LLM API">
+          <span>⚙️</span>
+        </button>
+        <span class="text-slate-400 text-xs ml-1">v6.1</span>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Layout -->
+  <!-- 移动端遮罩（点击关闭侧栏） -->
+  <div id="mobile-overlay" class="fixed inset-0 bg-black/50 z-30 hidden md:hidden" aria-hidden="true"></div>
+
+  <!-- Main Layout -->
+  <div class="max-w-[1800px] mx-auto flex">
+    <!-- Sidebar -->
+    <aside id="app-sidebar" class="w-64 flex-shrink-0 h-[calc(100vh-64px)] sticky top-16 overflow-y-auto border-r" style="background:var(--sidebar-bg);border-color:var(--sidebar-border)">
+      <div class="p-4">
+        <!-- 入口 -->
+        <a href="#/overview" class="nav-item" data-route="overview"><span class="nav-icon">◎</span> 平台总览</a>
+        <a href="#/compare" class="nav-item nav-compare" data-route="compare"><span class="nav-icon">⚖</span> 算法对比分析</a>
+
+        <!-- 侧栏全局折叠/展开控制 -->
+        <div class="flex items-center justify-between gap-2 mt-3 mb-1 px-1">
+          <span class="text-[10px] text-slate-400 font-semibold" data-i18n="sidebar.modules_nav">模块导航</span>
+          <div class="flex gap-1">
+            <button id="sidebar-collapse-all" class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200" data-i18n="sidebar.collapse_all" data-i18n-title="sidebar.collapse_all_t" title="全部折叠">▸ 全折叠</button>
+            <button id="sidebar-expand-all" class="text-[10px] px-2 py-0.5 rounded bg-indigo-50 text-indigo-600 hover:bg-indigo-100" data-i18n="sidebar.expand_all" data-i18n-title="sidebar.expand_all_t" title="全部展开">▾ 全展开</button>
+          </div>
+        </div>
+
+        <div class="cat-section" data-cat="ml_sup">
+          <div class="cat-header"><span data-i18n="cat.ml_sup">▎ 基础机器学习 · 监督</span> <span class="cat-toggle">▾</span></div>
+          <div class="cat-items">
+            <a href="#/ml_decision_tree" class="nav-item" data-route="ml_decision_tree"><span class="nav-icon">🌳</span> 决策树</a>
+            <a href="#/ml_random_forest" class="nav-item" data-route="ml_random_forest"><span class="nav-icon">🌲</span> 随机森林</a>
+            <a href="#/ml_xgboost" class="nav-item" data-route="ml_xgboost"><span class="nav-icon">🚀</span> XGBoost</a>
+            <a href="#/ml_lightgbm" class="nav-item" data-route="ml_lightgbm"><span class="nav-icon">⚡</span> LightGBM</a>
+            <a href="#/ml_logistic" class="nav-item" data-route="ml_logistic"><span class="nav-icon">σ</span> 逻辑回归</a>
+            <a href="#/ml_svm" class="nav-item" data-route="ml_svm"><span class="nav-icon">⊕</span> SVM 支持向量机</a>
+            <a href="#/ml_naive_bayes" class="nav-item" data-route="ml_naive_bayes"><span class="nav-icon">ℙ</span> 朴素贝叶斯</a>
+            <a href="#/ensemble_methods" class="nav-item" data-route="ensemble_methods"><span class="nav-icon">🧩</span> 集成融合方法</a>
+          </div>
+        </div>
+
+        <div class="cat-section" data-cat="ml_unsup">
+          <div class="cat-header"><span data-i18n="cat.ml_unsup">▎ 基础机器学习 · 无监督</span> <span class="cat-toggle">▾</span></div>
+          <div class="cat-items">
+            <a href="#/ml_kmeans" class="nav-item" data-route="ml_kmeans"><span class="nav-icon">◉</span> K-Means 聚类</a>
+            <a href="#/ml_dbscan" class="nav-item" data-route="ml_dbscan"><span class="nav-icon">◎</span> DBSCAN / HDBSCAN</a>
+          </div>
+        </div>
+
+        <div class="cat-section" data-cat="ml_dr">
+          <div class="cat-header"><span data-i18n="cat.ml_dr">▎ 降维 &amp; 异常检测</span> <span class="cat-toggle">▾</span></div>
+          <div class="cat-items">
+            <a href="#/ml_pca" class="nav-item" data-route="ml_pca"><span class="nav-icon">⊿</span> PCA 主成分分析</a>
+            <a href="#/ml_tsne_umap" class="nav-item" data-route="ml_tsne_umap"><span class="nav-icon">✧</span> t-SNE / UMAP</a>
+            <a href="#/ml_isolation_forest" class="nav-item" data-route="ml_isolation_forest"><span class="nav-icon">⚠</span> Isolation Forest</a>
+            <a href="#/ad_deep" class="nav-item" data-route="ad_deep"><span class="nav-icon">🔬</span> 深度异常检测</a>
+            <a href="#/ad_llm" class="nav-item" data-route="ad_llm"><span class="nav-icon">🤖</span> LLM 异常检测</a>
+          </div>
+        </div>
+
+        <div class="cat-section" data-cat="time_series">
+          <div class="cat-header"><span data-i18n="cat.time_series">▎ 时序模型</span> <span class="cat-toggle">▾</span></div>
+          <div class="cat-items">
+            <a href="#/ts_classical" class="nav-item" data-route="ts_classical"><span class="nav-icon">📈</span> 时序经典 (ARIMA/Prophet)</a>
+            <a href="#/ts_deep" class="nav-item" data-route="ts_deep"><span class="nav-icon">⏱</span> 深度时序 (PatchTST/iTrans)</a>
+            <a href="#/ts_foundation" class="nav-item" data-route="ts_foundation"><span class="nav-icon">🏔</span> 时序基座 (TimesFM/Chronos)</a>
+          </div>
+        </div>
+
+        <div class="cat-section" data-cat="nn">
+          <div class="cat-header"><span data-i18n="cat.nn">▎ 神经网络基础</span> <span class="cat-toggle">▾</span></div>
+          <div class="cat-items">
+            <a href="#/nn_mlp" class="nav-item" data-route="nn_mlp"><span class="nav-icon">▦</span> MLP / DNN</a>
+            <a href="#/nn_cnn" class="nav-item" data-route="nn_cnn"><span class="nav-icon">◰</span> CNN 卷积</a>
+            <a href="#/nn_rnn" class="nav-item" data-route="nn_rnn"><span class="nav-icon">↻</span> RNN / LSTM / GRU</a>
+            <a href="#/seq_encoder" class="nav-item" data-route="seq_encoder"><span class="nav-icon">S</span> 序列 Encoder (BST+T2V)</a>
+            <a href="#/nn_attention" class="nav-item" data-route="nn_attention"><span class="nav-icon">✶</span> Attention 机制</a>
+            <a href="#/nn_transformer" class="nav-item" data-route="nn_transformer"><span class="nav-icon">⟁</span> Transformer 完整架构</a>
+            <a href="#/nn_gpt" class="nav-item" data-route="nn_gpt"><span class="nav-icon">⫶</span> GPT / Decoder-only</a>
+            <a href="#/image_encoder" class="nav-item" data-route="image_encoder"><span class="nav-icon">I</span> 图像 Attention Pool</a>
+            <a href="#/fusion" class="nav-item" data-route="fusion"><span class="nav-icon">F</span> Perceiver-IO 融合</a>
+            <a href="#/mmoe" class="nav-item" data-route="mmoe"><span class="nav-icon">M</span> PLE-MMoE 多任务</a>
+            <a href="#/tab_dl" class="nav-item" data-route="tab_dl"><span class="nav-icon">🧮</span> 表格深度学习</a>
+          </div>
+        </div>
+
+        <div class="cat-section" data-cat="frontier">
+          <div class="cat-header"><span data-i18n="cat.frontier">▎ 前沿算法</span> <span class="cat-toggle">▾</span></div>
+          <div class="cat-items">
+            <a href="#/frontier_mamba" class="nav-item" data-route="frontier_mamba"><span class="nav-icon">🌀</span> Mamba / SSM</a>
+            <a href="#/frontier_diffusion" class="nav-item" data-route="frontier_diffusion"><span class="nav-icon">🌫</span> Diffusion 扩散模型</a>
+            <a href="#/frontier_rag" class="nav-item" data-route="frontier_rag"><span class="nav-icon">🔍</span> RAG 检索增强</a>
+            <a href="#/frontier_multimodal" class="nav-item" data-route="frontier_multimodal"><span class="nav-icon">🎭</span> 多模态大模型 🆕</a>
+            <a href="#/frontier_image_gen" class="nav-item" data-route="frontier_image_gen"><span class="nav-icon">🎨</span> 图像生成 🆕</a>
+            <a href="#/frontier_video_gen" class="nav-item" data-route="frontier_video_gen"><span class="nav-icon">🎬</span> 视频生成 🆕</a>
+            <a href="#/frontier_asr" class="nav-item" data-route="frontier_asr"><span class="nav-icon">🎙</span> 语音识别 🆕</a>
+            <a href="#/frontier_audio_gen" class="nav-item" data-route="frontier_audio_gen"><span class="nav-icon">🎵</span> 音频/歌曲生成 🆕</a>
+          </div>
+        </div>
+
+        <div class="cat-section" data-cat="graph">
+          <div class="cat-header"><span data-i18n="cat.graph">▎ 图算法 &amp; 图嵌入</span> <span class="cat-toggle">▾</span></div>
+          <div class="cat-items">
+            <a href="#/graph_pagerank" class="nav-item" data-route="graph_pagerank"><span class="nav-icon">⊛</span> PageRank</a>
+            <a href="#/graph_louvain" class="nav-item" data-route="graph_louvain"><span class="nav-icon">⬡</span> Louvain 社区挖掘</a>
+            <a href="#/graph_label_prop" class="nav-item" data-route="graph_label_prop"><span class="nav-icon">⟹</span> 标签传播 LPA</a>
+            <a href="#/graph_node2vec" class="nav-item" data-route="graph_node2vec"><span class="nav-icon">◈</span> Node2Vec / DeepWalk</a>
+            <a href="#/graph_gcn" class="nav-item" data-route="graph_gcn"><span class="nav-icon">⬢</span> GCN 图卷积</a>
+            <a href="#/graph_sage" class="nav-item" data-route="graph_sage"><span class="nav-icon">⬣</span> GraphSAGE</a>
+            <a href="#/graph_gat" class="nav-item" data-route="graph_gat"><span class="nav-icon">⬨</span> GAT 图注意力</a>
+            <a href="#/graph_encoder" class="nav-item" data-route="graph_encoder"><span class="nav-icon">G</span> HGT 异构图 Encoder</a>
+          </div>
+        </div>
+
+        <div class="cat-section" data-cat="loss">
+          <div class="cat-header"><span data-i18n="cat.loss">▎ 损失函数</span> <span class="cat-toggle">▾</span></div>
+          <div class="cat-items">
+            <a href="#/loss_basics" class="nav-item" data-route="loss_basics"><span class="nav-icon">L</span> 基础损失函数</a>
+            <a href="#/losses" class="nav-item" data-route="losses"><span class="nav-icon">Σ</span> 长尾 / 不均衡</a>
+            <a href="#/loss_multitask" class="nav-item" data-route="loss_multitask"><span class="nav-icon">⚖</span> 多目标优化</a>
+          </div>
+        </div>
+
+        <div class="cat-section" data-cat="llm">
+          <div class="cat-header"><span data-i18n="cat.llm">▎ 大模型 LLM</span> <span class="cat-toggle">▾</span></div>
+          <div class="cat-items">
+            <a href="#/llm_foundation" class="nav-item" data-route="llm_foundation"><span class="nav-icon">🏛</span> 基座模型原理</a>
+            <a href="#/text_encoder" class="nav-item" data-route="text_encoder"><span class="nav-icon">T</span> 文本 Encoder (MacBERT+LoRA)</a>
+            <a href="#/llm_params" class="nav-item" data-route="llm_params"><span class="nav-icon">🎲</span> 采样参数</a>
+            <a href="#/llm_finetune" class="nav-item" data-route="llm_finetune"><span class="nav-icon">🎯</span> 高效微调</a>
+            <a href="#/llm_quantization" class="nav-item" data-route="llm_quantization"><span class="nav-icon">📦</span> 量化 &amp; KV Cache</a>
+            <a href="#/llm_serving" class="nav-item" data-route="llm_serving"><span class="nav-icon">🚢</span> 推理部署架构</a>
+            <a href="#/llm_cot" class="nav-item" data-route="llm_cot"><span class="nav-icon">💭</span> CoT 思维链 🆕</a>
+            <a href="#/llm_rag" class="nav-item" data-route="llm_rag"><span class="nav-icon">🔍</span> RAG 检索增强 🆕</a>
+            <a href="#/llm_react" class="nav-item" data-route="llm_react"><span class="nav-icon">🔄</span> ReAct 推理-行动 🆕</a>
+            <a href="#/llm_tool_use" class="nav-item" data-route="llm_tool_use"><span class="nav-icon">🔧</span> Tool Use / Function Calling 🆕</a>
+            <a href="#/llm_agent" class="nav-item" data-route="llm_agent"><span class="nav-icon">🤖</span> LLM Agent 智能体 🆕</a>
+            <a href="#/llm_models_zoo" class="nav-item" data-route="llm_models_zoo"><span class="nav-icon">🌐</span> 主流大模型详介 🆕</a>
+            <a href="#/llm_agent_advanced" class="nav-item" data-route="llm_agent_advanced"><span class="nav-icon">🦾</span> Agent 进阶 · Skills/OpenClaw/Hermes 🆕</a>
+          </div>
+        </div>
+
+        <div class="cat-section" data-cat="learning">
+          <div class="cat-header"><span data-i18n="cat.learning">▎ 学习 &amp; 助理 🆕</span> <span class="cat-toggle">▾</span></div>
+          <div class="cat-items">
+            <a href="#/learning_paths" class="nav-item" data-route="learning_paths"><span class="nav-icon">🎯</span> 学习路径（四类人群）</a>
+            <a href="#/learning_stories" class="nav-item" data-route="learning_stories"><span class="nav-icon">📖</span> 真实转型案例 🆕</a>
+            <a href="#/tutor" class="nav-item" data-route="tutor"><span class="nav-icon">👨‍🏫</span> AI 学习助理（多轮对话）</a>
+          </div>
+        </div>
+
+        <div class="cat-section" data-cat="case">
+          <div class="cat-header"><span data-i18n="cat.case">▎ 工业案例</span> <span class="cat-toggle">▾</span></div>
+          <div class="cat-items">
+            <a href="#/case_overview" class="nav-item" data-route="case_overview"><span class="nav-icon">📚</span> 案例总览</a>
+            <a href="#/case_recommendation" class="nav-item" data-route="case_recommendation"><span class="nav-icon">🛒</span> 推荐算法</a>
+            <a href="#/case_fraud" class="nav-item" data-route="case_fraud"><span class="nav-icon">💳</span> 欺诈识别</a>
+            <a href="#/case_ads_ctr" class="nav-item" data-route="case_ads_ctr"><span class="nav-icon">📢</span> 广告 CTR 预估</a>
+            <a href="#/case_credit_score" class="nav-item" data-route="case_credit_score"><span class="nav-icon">📊</span> 信用评分</a>
+            <a href="#/case_tts" class="nav-item" data-route="case_tts"><span class="nav-icon">🗣</span> 语音合成 TTS 🆕</a>
+            <a href="#/case_video_gen" class="nav-item" data-route="case_video_gen"><span class="nav-icon">📹</span> 视频生成 🆕</a>
+            <a href="#/case_merchant" class="nav-item" data-route="case_merchant"><span class="nav-icon">🛡</span> 商户多模态识别</a>
+            <!-- 商户识别子模块（嵌套可折叠）-->
+            <div class="subcat-section" data-subcat="case_merchant_detail">
+              <div class="subcat-header">&nbsp;&nbsp;<span data-i18n="cat.case_merchant_detail">└ 商户识别 · 子模块</span> <span class="subcat-toggle">▾</span></div>
+              <div class="subcat-items">
+                <a href="#/aux_encoder" class="nav-item nav-sub" data-route="aux_encoder"><span class="nav-icon">A</span> 辅助 Encoder</a>
+                <a href="#/heads" class="nav-item nav-sub" data-route="heads"><span class="nav-icon">H</span> 多任务 Heads</a>
+                <a href="#/samplers" class="nav-item nav-sub" data-route="samplers"><span class="nav-icon">R</span> 采样器</a>
+                <a href="#/training" class="nav-item nav-sub" data-route="training"><span class="nav-icon">C</span> Decoupled cRT</a>
+                <a href="#/distillation" class="nav-item nav-sub" data-route="distillation"><span class="nav-icon">K</span> 蒸馏 &amp; 量化</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cat-section" data-cat="coding">
+          <div class="cat-header"><span data-i18n="cat.coding">▎ 基础编程算法 🆕</span> <span class="cat-toggle">▾</span></div>
+          <div class="cat-items">
+            <a href="#/coding_overview" class="nav-item" data-route="coding_overview"><span class="nav-icon">🧮</span> 总览（LeetCode / VisuAlgo）</a>
+            <a href="#/coding_sort" class="nav-item" data-route="coding_sort"><span class="nav-icon">🔀</span> 排序算法全家族</a>
+            <a href="#/coding_search" class="nav-item" data-route="coding_search"><span class="nav-icon">🔍</span> 查找（二分/哈希）</a>
+            <a href="#/coding_ds_stack_queue" class="nav-item" data-route="coding_ds_stack_queue"><span class="nav-icon">🥞</span> 栈/队列/单调栈</a>
+            <a href="#/coding_ds_linked_tree" class="nav-item" data-route="coding_ds_linked_tree"><span class="nav-icon">🌳</span> 链表/二叉树/堆</a>
+            <a href="#/coding_graph_traversal" class="nav-item" data-route="coding_graph_traversal"><span class="nav-icon">🕸️</span> BFS/DFS/拓扑排序</a>
+            <a href="#/coding_graph_shortest" class="nav-item" data-route="coding_graph_shortest"><span class="nav-icon">🧭</span> 最短路径 (Dijkstra/A*)</a>
+            <a href="#/coding_dp" class="nav-item" data-route="coding_dp"><span class="nav-icon">🧩</span> 动态规划 DP</a>
+            <a href="#/coding_string_math" class="nav-item" data-route="coding_string_math"><span class="nav-icon">🔤</span> 字符串 &amp; 数学</a>
+          </div>
+        </div>
+
+        <div class="mt-6 p-3 rounded-lg bg-gradient-to-br from-indigo-50 to-purple-50 text-[11px] text-slate-600 leading-relaxed border border-indigo-100">
+          <div class="font-semibold text-indigo-700 mb-1" data-i18n="sidebar.tip_title">💡 使用提示</div>
+          <div data-i18n-html="sidebar.tip_body">每个模块包含：原理 / 代码 / 交互图 / 场景。点击顶部 <b>⚖️ 算法对比</b> 可多选算法从 10+ 维度并排分析。</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Content -->
+    <main id="app-content" class="flex-1 min-w-0 p-3 sm:p-5 md:p-8">
+      <div class="text-center text-slate-400 py-20" data-i18n="common.loading">加载中...</div>
+    </main>
+  </div>
+
+  <!-- Shared JS -->
+  <script src="assets/js/common.js"></script>
+  <script src="assets/js/i18n.js"></script>
+  <script src="assets/js/sidebar_order.js"></script>
+  <script src="assets/js/algorithms_registry.js"></script>
+  <script src="assets/js/search.js"></script>
+  <script src="assets/js/llm_config.js"></script>
+  <script src="assets/js/assistant.js"></script>
+
+  <!-- Platform pages -->
+  <script src="assets/js/modules/overview.js"></script>
+  <script src="assets/js/modules/compare.js"></script>
+
+  <!-- Classical ML -->
+  <script src="assets/js/modules/ml_decision_tree.js"></script>
+  <script src="assets/js/modules/ml_random_forest.js"></script>
+  <script src="assets/js/modules/ml_xgboost.js"></script>
+  <script src="assets/js/modules/ml_lightgbm.js"></script>
+  <script src="assets/js/modules/ml_logistic.js"></script>
+  <script src="assets/js/modules/ml_svm.js"></script>
+  <script src="assets/js/modules/ml_naive_bayes.js"></script>
+  <script src="assets/js/modules/ml_kmeans.js"></script>
+  <script src="assets/js/modules/ml_dbscan.js"></script>
+  <script src="assets/js/modules/ml_pca.js"></script>
+  <script src="assets/js/modules/ml_tsne_umap.js"></script>
+  <script src="assets/js/modules/ml_isolation_forest.js"></script>
+  <script src="assets/js/modules/ensemble_methods.js"></script>
+
+  <!-- Time Series -->
+  <script src="assets/js/modules/ts_classical.js"></script>
+  <script src="assets/js/modules/ts_deep.js"></script>
+  <script src="assets/js/modules/ts_foundation.js"></script>
+
+  <!-- Anomaly Detection (deep + LLM) -->
+  <script src="assets/js/modules/ad_deep.js"></script>
+  <script src="assets/js/modules/ad_llm.js"></script>
+
+  <!-- Tabular DL -->
+  <script src="assets/js/modules/tab_dl.js"></script>
+
+  <!-- Frontier -->
+  <script src="assets/js/modules/frontier_mamba.js"></script>
+  <script src="assets/js/modules/frontier_diffusion.js"></script>
+  <script src="assets/js/modules/frontier_rag.js"></script>
+  <script src="assets/js/modules/frontier_multimodal.js"></script>
+  <script src="assets/js/modules/frontier_image_gen.js"></script>
+  <script src="assets/js/modules/frontier_video_gen.js"></script>
+  <script src="assets/js/modules/frontier_asr.js"></script>
+  <script src="assets/js/modules/frontier_audio_gen.js"></script>
+
+  <!-- Neural Networks -->
+  <script src="assets/js/modules/nn_mlp.js"></script>
+  <script src="assets/js/modules/nn_cnn.js"></script>
+  <script src="assets/js/modules/nn_rnn.js"></script>
+  <script src="assets/js/modules/nn_attention.js"></script>
+  <script src="assets/js/modules/nn_transformer.js"></script>
+  <script src="assets/js/modules/nn_gpt.js"></script>
+
+  <!-- Graph -->
+  <script src="assets/js/modules/graph_pagerank.js"></script>
+  <script src="assets/js/modules/graph_louvain.js"></script>
+  <script src="assets/js/modules/graph_label_prop.js"></script>
+  <script src="assets/js/modules/graph_node2vec.js"></script>
+  <script src="assets/js/modules/graph_gcn.js"></script>
+  <script src="assets/js/modules/graph_sage.js"></script>
+  <script src="assets/js/modules/graph_gat.js"></script>
+
+  <!-- Losses -->
+  <script src="assets/js/modules/loss_basics.js"></script>
+  <script src="assets/js/modules/losses.js"></script>
+  <script src="assets/js/modules/loss_multitask.js"></script>
+
+  <!-- LLM -->
+  <script src="assets/js/modules/llm_foundation.js"></script>
+  <script src="assets/js/modules/llm_params.js"></script>
+  <script src="assets/js/modules/llm_finetune.js"></script>
+  <script src="assets/js/modules/llm_quantization.js"></script>
+  <script src="assets/js/modules/llm_serving.js"></script>
+  <!-- LLM 高阶（v6.2 新增） -->
+  <script src="assets/js/modules/llm_cot.js"></script>
+  <script src="assets/js/modules/llm_rag.js"></script>
+  <script src="assets/js/modules/llm_react.js"></script>
+  <script src="assets/js/modules/llm_tool_use.js"></script>
+  <script src="assets/js/modules/llm_agent.js"></script>
+  <script src="assets/js/modules/llm_models_zoo.js"></script>
+  <script src="assets/js/modules/llm_agent_advanced.js"></script>
+  <!-- 学习路径 & AI 助理（v6.2+ 新增） -->
+  <script src="assets/js/modules/learning_paths.js"></script>
+  <script src="assets/js/modules/learning_stories.js"></script>
+  <script src="assets/js/modules/tutor.js"></script>
+
+  <!-- Case Study -->
+  <script src="assets/js/modules/case_overview.js"></script>
+  <script src="assets/js/modules/case_merchant.js"></script>
+  <script src="assets/js/modules/case_recommendation.js"></script>
+  <script src="assets/js/modules/case_fraud.js"></script>
+  <script src="assets/js/modules/case_ads_ctr.js"></script>
+  <script src="assets/js/modules/case_credit_score.js"></script>
+  <script src="assets/js/modules/case_tts.js"></script>
+  <script src="assets/js/modules/case_video_gen.js"></script>
+  <script src="assets/js/modules/text_encoder.js"></script>
+  <script src="assets/js/modules/seq_encoder.js"></script>
+  <script src="assets/js/modules/graph_encoder.js"></script>
+  <script src="assets/js/modules/image_encoder.js"></script>
+  <script src="assets/js/modules/aux_encoder.js"></script>
+  <script src="assets/js/modules/fusion.js"></script>
+  <script src="assets/js/modules/mmoe.js"></script>
+  <script src="assets/js/modules/heads.js"></script>
+  <script src="assets/js/modules/samplers.js"></script>
+  <script src="assets/js/modules/training.js"></script>
+  <script src="assets/js/modules/distillation.js"></script>
+
+  <!-- Coding Algorithms (基础编程算法 · v6.0) -->
+  <script src="assets/js/modules/coding_overview.js"></script>
+  <script src="assets/js/modules/coding_sort.js"></script>
+  <script src="assets/js/modules/coding_search.js"></script>
+  <script src="assets/js/modules/coding_ds_stack_queue.js"></script>
+  <script src="assets/js/modules/coding_ds_linked_tree.js"></script>
+  <script src="assets/js/modules/coding_graph_traversal.js"></script>
+  <script src="assets/js/modules/coding_graph_shortest.js"></script>
+  <script src="assets/js/modules/coding_dp.js"></script>
+  <script src="assets/js/modules/coding_string_math.js"></script>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
