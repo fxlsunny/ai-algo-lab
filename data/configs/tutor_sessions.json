@@ -1,0 +1,45 @@
+{
+  "sessions": {
+    "s_modofv1lqxzd": {
+      "id": "s_modofv1lqxzd",
+      "title": "我是零基础小白，想转 AI 算法，我该从哪里开始？",
+      "messages": [
+        {
+          "role": "user",
+          "content": "我是零基础小白，想转 AI 算法，我该从哪里开始？",
+          "ts": "2026-04-25T01:44:57.321Z"
+        },
+        {
+          "role": "assistant",
+          "content": "作为零基础转AI算法的小白，建议按照以下 **「四步走」** 路线系统学习，我会拆解每个阶段的关键目标和资源推荐：\n\n---\n\n### 一、数学基础（1-2个月）\nAI的核心是数学建模，重点掌握：\n1. **线性代数**  \n   - 矩阵运算（乘法/转置）、向量空间、特征值（[MIT线性代数公开课](https://ocw.mit.edu/courses/mathematics/18-06-linear-algebra-spring-2010/)）\n   - *应用场景*：神经网络权重计算、PCA降维\n\n2. **概率与统计**  \n   - 概率分布（高斯分布/伯努利分布）、贝叶斯定理、期望/方差  \n   - *关键公式*：$P(A|B) = \\frac{P(B|A)P(A)}{P(B)}$  \n   - *应用场景*：分类模型概率输出、A/B测试\n\n3. **微积分**  \n   - 导数/偏导数、梯度（$\\nabla f(x)$）、链式法则  \n   - *应用场景*：反向传播算法\n\n> 📚 推荐书籍：《程序员的数学3：线性代数》《统计学习方法》（前两章）\n\n---\n\n### 二、编程与工具（1个月）\n1. **Python入门**  \n   - 重点学习：列表/字典操作、函数、NumPy数组计算  \n   ```python\n   # 示例：用NumPy实现矩阵乘法\n   import numpy as np\n   A = np.array([[1, 2], [3, 4]])\n   B = np.array([[5, 6], [7, 8]])\n   print(np.dot(A, B))  # 矩阵乘法\n   ```\n\n2. **机器学习工具链**  \n   - 必学库：`scikit-learn`（传统算法）、`pandas`（数据处理）、`matplotlib`（可视化）\n\n> 🛠️ 实践：用Kaggle的[Titanic数据集](https://www.kaggle.com/c/titanic)做第一个分类项目（年龄/性别预测生存率）\n\n---\n\n### 三、机器学习基础（2-3个月）\n1. **经典算法**  \n   - 监督学习：线性回归、决策树（[ml_decision_tree](#/ml_decision_tree)）、SVM、朴素贝叶斯  \n   - 无监督学习：K-Means（[ml_kmeans](#/ml_kmeans)）、PCA  \n   - *核心指标*：准确率/召回率/F1-score、交叉验证\n\n2. **学习路径建议**  \n   - 先掌握scikit-learn实现 → 再理解背后的数学原理  \n   - 推荐课程：[吴恩达《机器学习》](https://www.coursera.org/learn/machine-learning)（中文笔记可搜\"机器学习 吴恩达 笔记\")\n\n---\n\n### 四、深度学习入门（3个月+）\n1. **神经网络基础**  \n   - 学习[nn_mlp](#/nn_mlp)（多层感知机）、激活函数（ReLU/Sigmoid）、损失函数（交叉熵）  \n   - *关键公式*：反向传播中的梯度更新 $\\theta_{new} = \\theta_{old} - \\eta \\nabla J(\\theta)$\n\n2. **框架实战**  \n   - 从PyTorch或TensorFlow开始（推荐PyTorch更易上手）  \n   - 第一个项目：用CNN（[nn_cnn](#/nn_cnn)）做MNIST手写数字识别\n\n3. **进阶方向选择**（根据兴趣选1个深入）  \n   - **CV方向**：图像分类（ResNet）、目标检测（YOLO）  \n   - **NLP方向**：文本分类（BERT）、[llm_foundation](#/llm_foundation)（大模型基础）  \n   - **推荐系统**：协同过滤、[ml_xgboost](#/ml_xgboost)（排序模型）\n\n---\n\n### ✨ 零基础特别建议\n1. **学习节奏**：每天2-3小时，先保证理解而非刷题量  \n2. **项目驱动**：每学完一个算法，立刻在Kaggle找对应比赛练习  \n3. **避坑提示**：不要一开始就啃《深度学习》花书（适合后期查阅）\n\n> 🎯 阶段目标：6个月后能独立完成一个端到端的AI项目（如房价预测/垃圾邮件分类），并理解每一步的数学原理。\n\n如果需要更具体的某部分展开（比如\"如何从零实现一个神经网络\"），可以告诉我你的兴趣方向！",
+          "ts": "2026-04-25T01:44:57.329Z",
+          "model": "hunyuan/hunyuan-turbos-latest"
+        }
+      ],
+      "createdAt": "2026-04-25T01:44:57.321Z",
+      "updatedAt": "2026-04-25T01:45:34.808Z",
+      "model": "hunyuan/hunyuan-turbos-latest"
+    },
+    "s_modoh1oy4jln": {
+      "id": "s_modoh1oy4jln",
+      "title": "Transformer 里的 Attention 是怎么工作的？自注意力 vs ",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Transformer 里的 Attention 是怎么工作的？自注意力 vs 交叉注意力？",
+          "ts": "2026-04-25T18:28:15.176Z"
+        },
+        {
+          "role": "assistant",
+          "content": "Transformer 的核心是 **Self-Attention（自注意力）** 和 **Cross-Attention（交叉注意力）**，它们通过计算序列中元素间的依赖关系实现全局建模。下面分模块详解：\n\n---\n\n### 一、Self-Attention（自注意力）工作原理\n**作用**：同一序列内 token 间相互关注（如句子中每个词关注其他词）。  \n**关键步骤**：  \n1. **输入表示**：  \n   输入序列 $X \\in \\mathbb{R}^{n \\times d_{\\text{model}}}$（$n$ 为 token 数，$d_{\\text{model}}$ 为维度），通过三个线性变换生成 **Q（Query）、K（Key）、V（Value）**：  \n   $$\n   Q = XW^Q, \\quad K = XW^K, \\quad V = XW^V \\quad (W^Q, W^K, W^V \\in \\mathbb{R}^{d_{\\text{model}} \\times d_k})\n$$\n   （通常 $d_k = d_{\\text{model}} / h$，$h$ 为注意力头数）\n\n2. **注意力分数计算**：  \n   计算 Query 和 Key 的相似度（点积），衡量 token 间的关联强度：  \n   $$\n   \\text{Score}(Q_i, K_j) = \\frac{Q_i K_j^\\top}{\\sqrt{d_k}}\n$$\n   - 缩放因子 $\\sqrt{d_k}$ 防止点积过大导致梯度消失。\n\n3. **Softmax 归一化**：  \n   对分数做 softmax 得到注意力权重：  \n   $$\n   \\alpha_{ij} = \\text{softmax}\\left(\\frac{Q_i K_j^\\top}{\\sqrt{d_k}}\\right)\n$$\n\n4. **加权求和**：  \n   用权重对 Value 加权聚合信息：  \n   $$\n   \\text{Attention}(Q, K, V) = \\sum_{j=1}^n \\alpha_{ij} V_j\n$$\n\n5. **多头机制（Multi-Head）**：  \n   并行多个注意力头（不同投影矩阵），最后拼接结果增强表达能力：  \n   $$\n   \\text{MultiHead}(Q, K, V) = \\text{Concat}(\\text{head}_1, \\dots, \\text{head}_h) W^O\n$$\n\n---\n\n### 二、Cross-Attention（交叉注意力）工作原理\n**作用**：两个不同序列间的交互（如解码器关注编码器的输出）。  \n**与 Self-Attention 的区别**：  \n- **Q 来源不同**：  \n  - Self-Attention：Q/K/V 均来自 **同一输入序列**（如编码器的输入）。  \n  - Cross-Attention：Q 来自 **目标序列**（如解码器的当前输入），K/V 来自 **源序列**（如编码器的输出）。  \n- **公式对比**：  \n  $$\n  \\text{CrossAttention}(Q, K, V) = \\text{softmax}\\left(\\frac{QW^Q (KW^K)^\\top}{\\sqrt{d_k}}\\right) VW^V\n$$\n  （Q 与 K 的序列可能长度不同）\n\n**典型场景**：  \n- 机器翻译中，解码器通过 Cross-Attention 关注编码器的源语言句子。  \n- 视觉-语言模型中，文本 Query 关注图像 Patch 的 Key/Value。\n\n---\n\n### 三、核心区别总结\n| 特性                | Self-Attention                     | Cross-Attention                     |\n|---------------------|-----------------------------------|-------------------------------------|\n| **输入序列**         | 单一序列（如编码器输入）           | 两个序列（Q 来自目标，K/V 来自源）   |\n| **Q/K/V 来源**       | 全部来自同一输入                   | Q 与 K/V 来自不同输入               |\n| **典型应用**         | 编码器层、Transformer 基础块       | 解码器层、跨模态任务                |\n| **依赖关系**         | 序列内部依赖                       | 序列间依赖（如源-目标对齐）         |\n\n---\n\n### 四、代码示例（PyTorch 风格）\n```python\nimport torch\nimport torch.nn.functional as F\n\n# Self-Attention 示例\ndef self_attention(X, WQ, WK, WV):\n    Q, K, V = X @ WQ, X @ WK, X @ WV\n    scores = (Q @ K.transpose(-2, -1)) / (K.size(-1) ** 0.5)\n    weights = F.softmax(scores, dim=-1)\n    return weights @ V\n\n# Cross-Attention 示例\ndef cross_attention(Q, K, V):  # Q: 目标序列, K/V: 源序列\n    scores = (Q @ K.transpose(-2, -1)) / (K.size(-1) ** 0.5)\n    weights = F.softmax(scores, dim=-1)\n    return weights @ V\n```\n\n---\n\n### 五、学习资源推荐\n1. **原始论文**：  \n   - [Attention Is All You Need (Vaswani et al., 2017)](https://arxiv.org/abs/1706.03762)（Transformer 基础）  \n2. **可视化工具**：  \n   - [Transformer Attention 可视化](https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/)（Jay Alammar 的图解）  \n3. **进阶阅读**：  \n   - [LLM 中的注意力优化](#/llm_foundation)（如 Flash Attention、稀疏注意力）  \n\n如果需要更具体的某部分解释（如多头细节或工程实现优化），可以进一步提问！",
+          "ts": "2026-04-25T18:28:15.186Z",
+          "model": "hunyuan/hunyuan-turbos-latest"
+        }
+      ],
+      "createdAt": "2026-04-25T01:45:52.594Z",
+      "updatedAt": "2026-04-25T18:29:00.673Z",
+      "model": "hunyuan/hunyuan-turbos-latest"
+    }
+  },
+  "active": "s_modoh1oy4jln"
+}
