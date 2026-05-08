@@ -1,0 +1,143 @@
+{
+  "_note": "LLM 配置导入模板。复制此文件、填入实际 API Key 后，在配置面板点击 '📥 导入 JSON' 即可。混元配置保留演示 Key 可直接使用。",
+  "_how_to_import": "平台右上角 ⚙️ → 📥 导入 JSON → 选择此文件（请先把 ***FILL_YOUR_KEY*** 替换为真实 Key）",
+  "exported_at": "2026-04-24T00:00:00.000Z",
+  "configs": [
+    {
+      "id": "cfg_hunyuan_demo",
+      "name": "🌟 腾讯混元（演示 Key 零配置）",
+      "provider": "hunyuan",
+      "endpoint": "https://api.hunyuan.cloud.tencent.com/v1",
+      "model": "hunyuan-turbos-latest",
+      "apiKey": "",
+      "useDemoKey": true,
+      "extra_body": { "enable_enhancement": true },
+      "_note": "apiKey 留空 + useDemoKey=true → 使用内置演示 Key，零配置即用（可能有速率限制）"
+    },
+    {
+      "id": "cfg_hunyuan_own",
+      "name": "腾讯混元（自备 Key）",
+      "provider": "hunyuan",
+      "endpoint": "https://api.hunyuan.cloud.tencent.com/v1",
+      "model": "hunyuan-pro",
+      "apiKey": "***FILL_YOUR_KEY***",
+      "useDemoKey": false,
+      "extra_body": { "enable_enhancement": true },
+      "_note": "控制台申请：https://console.cloud.tencent.com/hunyuan/api-key"
+    },
+    {
+      "id": "cfg_openai",
+      "name": "OpenAI GPT-4o",
+      "provider": "openai",
+      "endpoint": "https://api.openai.com/v1",
+      "model": "gpt-4o",
+      "apiKey": "***FILL_YOUR_KEY***"
+    },
+    {
+      "id": "cfg_deepseek",
+      "name": "DeepSeek Chat",
+      "provider": "deepseek",
+      "endpoint": "https://api.deepseek.com/v1",
+      "model": "deepseek-chat",
+      "apiKey": "***FILL_YOUR_KEY***"
+    },
+    {
+      "id": "cfg_qwen",
+      "name": "Qwen Max (阿里)",
+      "provider": "qwen",
+      "endpoint": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+      "model": "qwen-max",
+      "apiKey": "***FILL_YOUR_KEY***"
+    },
+    {
+      "id": "cfg_claude",
+      "name": "Claude 3.5 Sonnet",
+      "provider": "anthropic",
+      "endpoint": "https://api.anthropic.com/v1",
+      "model": "claude-3-5-sonnet-20241022",
+      "apiKey": "***FILL_YOUR_KEY***"
+    },
+    {
+      "id": "cfg_moonshot",
+      "name": "Kimi 128k",
+      "provider": "moonshot",
+      "endpoint": "https://api.moonshot.cn/v1",
+      "model": "moonshot-v1-128k",
+      "apiKey": "***FILL_YOUR_KEY***"
+    },
+    {
+      "id": "cfg_zhipu",
+      "name": "智谱 GLM-4 Plus",
+      "provider": "zhipu",
+      "endpoint": "https://open.bigmodel.cn/api/paas/v4",
+      "model": "glm-4-plus",
+      "apiKey": "***FILL_YOUR_KEY***"
+    },
+    {
+      "id": "cfg_groq",
+      "name": "Groq Cloud (免费层)",
+      "provider": "groq",
+      "endpoint": "https://api.groq.com/openai/v1",
+      "model": "llama-3.3-70b-versatile",
+      "apiKey": "***FILL_YOUR_KEY***",
+      "_note": "免费申请：https://console.groq.com - 每天 14400 次免费额度"
+    },
+    {
+      "id": "cfg_siliconflow",
+      "name": "硅基流动 SiliconFlow",
+      "provider": "siliconflow",
+      "endpoint": "https://api.siliconflow.cn/v1",
+      "model": "Qwen/Qwen2.5-72B-Instruct",
+      "apiKey": "***FILL_YOUR_KEY***"
+    },
+    {
+      "id": "cfg_baichuan",
+      "name": "百川智能 Baichuan4-Turbo",
+      "provider": "baichuan",
+      "endpoint": "https://api.baichuan-ai.com/v1",
+      "model": "Baichuan4-Turbo",
+      "apiKey": "***FILL_YOUR_KEY***"
+    },
+    {
+      "id": "cfg_minimax",
+      "name": "MiniMax abab6.5s",
+      "provider": "minimax",
+      "endpoint": "https://api.minimax.chat/v1",
+      "model": "abab6.5s-chat",
+      "apiKey": "***FILL_YOUR_KEY***"
+    },
+    {
+      "id": "cfg_doubao",
+      "name": "字节豆包 doubao-pro-32k",
+      "provider": "doubao",
+      "endpoint": "https://ark.cn-beijing.volces.com/api/v3",
+      "model": "doubao-pro-32k",
+      "apiKey": "***FILL_YOUR_KEY***"
+    },
+    {
+      "id": "cfg_gemini",
+      "name": "Google Gemini 1.5 Pro",
+      "provider": "gemini",
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta",
+      "model": "gemini-1.5-pro",
+      "apiKey": "***FILL_YOUR_KEY***"
+    },
+    {
+      "id": "cfg_ollama",
+      "name": "Ollama 本地 Qwen2.5",
+      "provider": "ollama",
+      "endpoint": "http://localhost:11434/v1",
+      "model": "qwen2.5",
+      "apiKey": ""
+    },
+    {
+      "id": "cfg_custom",
+      "name": "公司内部 LLM 代理",
+      "provider": "custom",
+      "endpoint": "https://your-proxy.example.com/v1",
+      "model": "your-model-name",
+      "apiKey": "***FILL_YOUR_KEY***"
+    }
+  ],
+  "active": "cfg_hunyuan_demo"
+}
